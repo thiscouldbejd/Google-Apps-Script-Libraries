@@ -1,3 +1,4 @@
+/* jshint maxerr:200 */
 // var Drive_API_Version = "0.9.8";
 
 // *** PERMISSIONS *** //
@@ -444,7 +445,7 @@ Permissions = function() {
   };
   // -- External Visibility -- //
 
-}
+};
 // *** PERMISSIONS *** //
 
 
@@ -579,7 +580,7 @@ Folders = function() {
       return Permissions().fetch(_id);
     },
 
-  }
+  };
   // -- External Visibility -- //
     
 }
@@ -592,7 +593,7 @@ Objects = function() {
 
   // -- Returns an instance of Objects if required -- //
   if (!(this instanceof Objects)) {
-    return new Objects;
+    return new Objects();
   }
   
   // -- Internal Variables -- //
@@ -820,7 +821,7 @@ Objects = function() {
       if (_object) {
         var _value = Drive.Properties.list(_object.id);
         if (_value) {
-          var _return = {}
+          var _return = {};
           for (var i = 0; i < _value.items.length; i++) {
             _return[_value.items[i].key] = _value.items[i].value;
           }
@@ -851,8 +852,8 @@ Objects = function() {
       Drive.Parents.insert({id : folder_Id}, _id);
       return this.refresh();
     },
-  }
+  };
   // -- External Visibility -- //
     
-}
+};
 // *** OBJECTS *** //
