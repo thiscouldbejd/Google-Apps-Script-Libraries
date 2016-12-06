@@ -28,6 +28,22 @@ Permissions = function() {
   // -- Internal Variables -- //
   
   // -- Internal Functions -- //
+  function _compare(value_1, value_2, ignore_Case, use_Locale) {
+    
+    if (ignore_Case) {
+        if (use_Locale) {
+            if (value_1 && typeof value_1 == "string") value_1 = value_1.toLocaleLowerCase();
+            if (value_2 && typeof value_2 == "string") value_2 = value_2.toLocaleLowerCase();
+        }
+        else {
+            if (value_1 && typeof value_1 == "string") value_1 = value_1.toLowerCase();
+            if (value_2 && typeof value_2 == "string") value_2 = value_2.toLowerCase();
+        }
+    }
+
+    return value_1 == value_2;
+  }
+  
   function _addPerm(value) {
     if (value) {
       _perms.push(value); // Need to check/update permission?
@@ -55,7 +71,7 @@ Permissions = function() {
       var matches = true;
       var perm = _perms[i];
       for (var parameter in parameters) {
-        if (!perm.hasOwnProperty(parameter) || perm[parameter] != parameters[parameter]) {
+        if (!perm.hasOwnProperty(parameter) || !_compare(perm[parameter], parameters[parameter], true)) {
           matches = false;
           break;
         }
@@ -65,18 +81,19 @@ Permissions = function() {
   }
   
   function _list(parameters) {
-    var _return = [];
+    var _return = []
     for (var i = 0; i < _perms_Length; i++) {
       var matches = true;
       var perm = _perms[i];
       for (var parameter in parameters) {
-        if (!perm.hasOwnProperty(parameter) || perm[parameter] != parameters[parameter]) {
+        if (!perm.hasOwnProperty(parameter) || _compare(perm[parameter], parameters[parameter], true)) {
           matches = false;
           break;
         }
       }
-      if (matches) return perm;
+      if (matches) _return.push(perm);
     }
+    return _return;
   }
   
   function _add(role, type, value) {
